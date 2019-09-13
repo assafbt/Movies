@@ -8,9 +8,11 @@ package com.assafbt.movies;
 
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.DividerItemDecoration;
@@ -39,12 +41,12 @@ public class MainActivity extends AppCompatActivity {
     private Context context;
 
     private RecyclerView mList;
-
+    private String TAG = "MainActivity";
     private LinearLayoutManager linearLayoutManager;
     private DividerItemDecoration dividerItemDecoration;
     private List<Movie> movieList;
     private RecyclerView.Adapter adapter;
-
+    private DatabaseHelper dbHelper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,12 +59,19 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Snackbar.make(view, "Current movie already exist in the Database", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
+
             }
         });
+        dbHelper = new DatabaseHelper(this);
+
+        fetchData();
 
         mList = findViewById(R.id.main_list);
 
-        movieList = new ArrayList<>();
+      //  movieList = new ArrayList<>();
+        movieList = dbHelper.getAllMovies();
+        Log.i(TAG +" dbHelper", "DatabaseVersion " + dbHelper.getDatabaseVersion());
+        Log.i(TAG +" dbHelper", "MoviesCount  " + dbHelper.getMoviesCount());
         adapter = new MovieAdapter(getApplicationContext(),movieList);
 
 
@@ -75,7 +84,6 @@ public class MainActivity extends AppCompatActivity {
         mList.addItemDecoration(dividerItemDecoration);
         mList.setAdapter(adapter);
 
-        fetchData();
 
     }
 
@@ -95,8 +103,22 @@ public class MainActivity extends AppCompatActivity {
                         movie.setTitle(jsonObject.getString("title"));
                         movie.setRating(jsonObject.getDouble("rating"));
                         movie.setYear(jsonObject.getInt("releaseYear"));
+                        movie.setImage(jsonObject.getString("image"));
+                        String tempGenre ="";
+                        JSONArray genreArr = jsonObject.getJSONArray("genre");
+                        for (int j=0; j<genreArr.length(); j++) {
+                            if (j>0)
+                                tempGenre += ", ";
+                            tempGenre += genreArr.getString(j);
+                        }
+                       // Log.i(TAG, "tempGenre: " + tempGenre);
 
-                        movieList.add(movie);
+                        movie.setGenre(tempGenre);
+                        long possition = dbHelper.insertMovie(movie);
+                        Log.i(TAG, "added in possition: " + possition);
+
+
+                        //movieList.add(movie);
                     } catch (JSONException e) {
                         e.printStackTrace();
                         Log.e("Error on JSONException", e.toString());

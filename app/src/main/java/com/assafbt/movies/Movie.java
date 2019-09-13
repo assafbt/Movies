@@ -12,7 +12,6 @@ public class Movie {
     public double rating;
     public int year;
     public String image;
-    //    Vector genres = new Vector();
     public String genre;
 
     public static final String TABLE_NAME = "MoviesDB";
@@ -26,26 +25,28 @@ public class Movie {
     // Create table SQL query
     public static final String CREATE_TABLE =
             "CREATE TABLE " + TABLE_NAME + "("
-                    + COLUMN_TITLE + " TEXT PRIMARY KEY,"
-                    + COLUMN_YEAR + " INTEGER"
-                    + COLUMN_RATING + " INTEGER"
-                    + COLUMN_IMAGE + " TEXT"
-                    + COLUMN_GENRE + " TEXT"
-                    + ")";
+                    + COLUMN_TITLE +    " TEXT PRIMARY KEY,"
+                    + COLUMN_RATING +     " REAL,"
+                    + COLUMN_YEAR +   " INTEGER,"
+                    + COLUMN_IMAGE +    " TEXT,"
+                    + COLUMN_GENRE +    " TEXT"
+                    + ");";
 
     public Movie() {
 
     }
 
     public Movie(String title, double rating, int year, String image, String genre) {
+/*        setTitle(title);
+        setRating(rating);
+        setYear(year);
+        setImage(image);
+        setGenre(genre);*/
         this.title = title;
         this.rating = rating;
         this.year = year;
         this.image = image;
         this.genre = genre;
-    }
-    public Movie(String title, double rating, int year) {
-        new Movie(title,rating,year, "EmptyImage", "EmptyGenre");
     }
 
     //Movie Title

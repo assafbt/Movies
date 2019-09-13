@@ -19,6 +19,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.List;
 
+import static android.content.Intent.FLAG_ACTIVITY_NEW_TASK;
+
 public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.ViewHolder> {
 
     private Context context;
@@ -32,7 +34,8 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.ViewHolder> 
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View v = LayoutInflater.from(context).inflate(R.layout.single_item, parent, false);
+        View v = LayoutInflater.from(context)
+                .inflate(R.layout.single_item, parent, false);
         return new ViewHolder(v);
     }
 
@@ -41,8 +44,8 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.ViewHolder> 
         Movie movie = movieList.get(position);
 
         holder.textTitle.setText(movie.getTitle());
-        holder.textRating.setText(String.valueOf(movie.getRating()));
-        holder.textYear.setText(String.valueOf(movie.getYear()));
+       // holder.textRating.setText(String.valueOf(movie.getRating()));
+       // holder.textYear.setText(String.valueOf(movie.getYear()));
 
     }
 
@@ -71,7 +74,11 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.ViewHolder> 
                     if(pos != RecyclerView.NO_POSITION){
                         Movie clickedDataItem = movieList.get(pos);
                         Toast.makeText(v.getContext(), "You Choose " + movieList.get(pos).title, Toast.LENGTH_SHORT).show();
-                        Intent intent = new Intent(context, MovieDetailsActivity.class);
+
+                        Intent intent= new Intent(context, MovieDetailsActivity.class);
+                        intent.addFlags(FLAG_ACTIVITY_NEW_TASK);
+                        intent.putExtra("title",movieList.get(pos).title);
+                        context.getApplicationContext().startActivity(intent);
 
                     }
                 }
