@@ -81,6 +81,7 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.ViewHolder> 
                         intent.putExtra("movie_year",clickedMovie.year);
                         intent.putExtra("movie_image",clickedMovie.image);
                         intent.putExtra("movie_genre",clickedMovie.genre);
+
                         intent.putExtra("movie_Possiton", pos);
 //                        intent.putExtra("Movie_obj", (Serializable) movieList.get(pos));
                         context.getApplicationContext().startActivity(intent);
