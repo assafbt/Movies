@@ -102,12 +102,11 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
             Log.i(functionTAG, "333");
             // prepare note object
-            mMovie = new Movie(
-                    cursor.getString(cursor.getColumnIndex(Movie.COLUMN_TITLE)),
-                    cursor.getString(cursor.getColumnIndex(Movie.COLUMN_RATING)),
-                    cursor.getInt(cursor.getColumnIndex(Movie.COLUMN_YEAR)),
-                    cursor.getString(cursor.getColumnIndex(Movie.COLUMN_GENRE)),
-                    cursor.getString(cursor.getColumnIndex(Movie.COLUMN_IMAGE)));
+            mMovie.setTitle(cursor.getString(cursor.getColumnIndex(Movie.COLUMN_TITLE)));
+            mMovie.setRating(cursor.getString(cursor.getColumnIndex(Movie.COLUMN_RATING)));
+            mMovie.setYear(cursor.getInt(cursor.getColumnIndex(Movie.COLUMN_YEAR)));
+            mMovie.setImage(cursor.getString(cursor.getColumnIndex(Movie.COLUMN_IMAGE)));
+            mMovie.setGenre(cursor.getString(cursor.getColumnIndex(Movie.COLUMN_GENRE)));
             Log.i(functionTAG, "444");
         }
         // close the db connection

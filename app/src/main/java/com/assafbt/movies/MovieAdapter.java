@@ -17,6 +17,7 @@ import android.widget.Toast;
 
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.io.Serializable;
 import java.util.List;
 
 import static android.content.Intent.FLAG_ACTIVITY_NEW_TASK;
@@ -71,12 +72,17 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.ViewHolder> 
 
                     // check if item still exists
                     if(pos != RecyclerView.NO_POSITION){
-                        Movie clickedDataItem = movieList.get(pos);
-                        Toast.makeText(v.getContext(), "You Choose " + movieList.get(pos).title, Toast.LENGTH_SHORT).show();
-
+                        Movie clickedMovie = movieList.get(pos);
+                        Toast.makeText(v.getContext(), "You Choose " + clickedMovie.title, Toast.LENGTH_SHORT).show();
                         Intent intent= new Intent(context, MovieDetailsActivity.class);
                         intent.addFlags(FLAG_ACTIVITY_NEW_TASK);
-                        intent.putExtra("title",movieList.get(pos).title);
+                        intent.putExtra("movie_title",clickedMovie.title);
+                        intent.putExtra("movie_rating",clickedMovie.rating);
+                        intent.putExtra("movie_year",clickedMovie.year);
+                        intent.putExtra("movie_image",clickedMovie.image);
+                        intent.putExtra("movie_genre",clickedMovie.genre);
+                        intent.putExtra("movie_Possiton", pos);
+//                        intent.putExtra("Movie_obj", (Serializable) movieList.get(pos));
                         context.getApplicationContext().startActivity(intent);
 
                     }
