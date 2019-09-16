@@ -44,7 +44,7 @@ public class MainActivity extends AppCompatActivity {
     private String TAG = "MainActivity";
     private LinearLayoutManager linearLayoutManager;
     private DividerItemDecoration dividerItemDecoration;
-    private List<Movie> movieList;
+    private List<Movie> movieList = new ArrayList<>();
     private RecyclerView.Adapter adapter;
     private DatabaseHelper dbHelper;
 
@@ -52,6 +52,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        String functionTAG = TAG +" dbHelper";
 
         FloatingActionButton fab = findViewById(fabAddMovie);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -68,10 +69,18 @@ public class MainActivity extends AppCompatActivity {
 
         mList = findViewById(R.id.main_list);
 
-      //  movieList = new ArrayList<>();
-        movieList = dbHelper.getAllMovies();
-        Log.i(TAG +" dbHelper", "DatabaseVersion " + dbHelper.getDatabaseVersion());
-        Log.i(TAG +" dbHelper", "MoviesCount  " + dbHelper.getMoviesCount());
+        //movieList = new ArrayList<>();
+       // movieList = dbHelper.getAllMovies();
+
+
+        // testing
+        Movie tempMovie = new Movie();
+        tempMovie = dbHelper.getMovie("District 9");
+        Log.i(functionTAG, "get first Movie " + tempMovie.getTitle());
+
+
+        Log.i(functionTAG, "DatabaseVersion " + dbHelper.getDatabaseVersion());
+        Log.i(functionTAG, "MoviesCount  " + dbHelper.getMoviesCount());
         adapter = new MovieAdapter(getApplicationContext(),movieList);
 
 
@@ -99,9 +108,9 @@ public class MainActivity extends AppCompatActivity {
                     try {
                         JSONObject jsonObject = response.getJSONObject(i);
 
-                        Movie movie = new Movie();
+                        Movie movie = new Movie("0","0",0,"0","0");
                         movie.setTitle(jsonObject.getString("title"));
-                        movie.setRating(jsonObject.getDouble("rating"));
+                        movie.setRating(jsonObject.getString("rating"));
                         movie.setYear(jsonObject.getInt("releaseYear"));
                         movie.setImage(jsonObject.getString("image"));
                         String tempGenre ="";

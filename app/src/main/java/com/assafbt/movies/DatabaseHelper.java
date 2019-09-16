@@ -21,7 +21,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     private String TAG = "DatabaseHelper";
 
     // Database Version
-    private static final int DATABASE_VERSION = 2;
+    private static final int DATABASE_VERSION = 4;
 
     // Database Name
     private static final String DATABASE_NAME = "movies_db";
@@ -52,18 +52,21 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         // get writable database as we want to write data
         SQLiteDatabase db = this.getWritableDatabase();
         Log.i(TAG+" insertMovie,", "db = " + db.toString());
+		
         ContentValues values = new ContentValues();
 
         values.put(Movie.COLUMN_TITLE, movie.getTitle());
-        Log.i(TAG +" insertMovie, Val", "getTitle: " + movie.getTitle());
         values.put(Movie.COLUMN_YEAR, movie.getYear());
-        Log.i(TAG +" insertMovie, Val", "getYear: " + movie.getYear());
-        Log.i(TAG +" insertMovie, Val", "values.containsKey: " + values.containsKey("year"));
         values.put(Movie.COLUMN_RATING, movie.getRating());
-        Log.i(TAG +" insertMovie, Val", "getRating: " + movie.getRating());
         values.put(Movie.COLUMN_IMAGE, movie.getImage());
-        Log.i(TAG +" insertMovie, Val", "getImage: " + movie.getImage());
         values.put(Movie.COLUMN_GENRE, movie.getGenre());
+		
+		
+		Log.i(TAG +" insertMovie, Val", "getTitle: " + movie.getTitle());
+		Log.i(TAG +" insertMovie, Val", "getYear: " + movie.getYear());
+        Log.i(TAG +" insertMovie, Val", "values.containsKey: " + values.containsKey("year"));
+		Log.i(TAG +" insertMovie, Val", "getRating: " + movie.getRating());
+		Log.i(TAG +" insertMovie, Val", "getImage: " + movie.getImage());
         Log.i(TAG +" insertMovie, Val", "getGenre: " + movie.getGenre());
 
         // insert row
@@ -80,26 +83,32 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return id;
     }//insertMovie
 
-    public Movie getMovie(long id) {
+    public Movie getMovie(String title) {
         // get readable database as we are not inserting anything
         SQLiteDatabase db = this.getReadableDatabase();
+        String functionTAG = TAG +" getMovie:";
 
+        Log.i(functionTAG,"111");
+        String[] mColumns = {Movie.COLUMN_TITLE, Movie.COLUMN_RATING, Movie.COLUMN_YEAR};
+        String mQuery = Movie.COLUMN_TITLE + "=?";
         Cursor cursor = db.query(Movie.TABLE_NAME,
-                new String[]{Movie.COLUMN_TITLE, Movie.COLUMN_RATING, Movie.COLUMN_YEAR},
-                Movie.COLUMN_TITLE + "=?",
-                new String[]{String.valueOf(id)}, null, null, null, null);
-
-        if (cursor != null)
+                mColumns, mQuery, new String[]{title}, null, null, null, null);
+        Log.i(functionTAG,"222");
+        Movie mMovie = new Movie("title","rating",1900,"image","genre");
+        if (cursor != null) {
             cursor.moveToFirst();
+            Log.i(functionTAG, "moveToFirst " + cursor.moveToFirst());
 
-        // prepare note object
-        Movie mMovie = new Movie(
-                cursor.getString(cursor.getColumnIndex(Movie.COLUMN_TITLE)),
-                cursor.getInt(cursor.getColumnIndex(Movie.COLUMN_RATING)),
-                cursor.getInt(cursor.getColumnIndex(Movie.COLUMN_YEAR)),
-                cursor.getString(cursor.getColumnIndex(Movie.COLUMN_GENRE)),
-                cursor.getString(cursor.getColumnIndex(Movie.COLUMN_IMAGE)));
-
+            Log.i(functionTAG, "333");
+            // prepare note object
+            mMovie = new Movie(
+                    cursor.getString(cursor.getColumnIndex(Movie.COLUMN_TITLE)),
+                    cursor.getString(cursor.getColumnIndex(Movie.COLUMN_RATING)),
+                    cursor.getInt(cursor.getColumnIndex(Movie.COLUMN_YEAR)),
+                    cursor.getString(cursor.getColumnIndex(Movie.COLUMN_GENRE)),
+                    cursor.getString(cursor.getColumnIndex(Movie.COLUMN_IMAGE)));
+            Log.i(functionTAG, "444");
+        }
         // close the db connection
         cursor.close();
 
@@ -118,8 +127,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
         SQLiteDatabase db = this.getWritableDatabase();
       //  Cursor cursor = db.rawQuery(selectQuery, null);
-       // String[] colums = {COLUMN_TITLE};
-       // Cursor cursor = db.query(Movie.TABLE_NAME, colums,null, null, null, null,Movie.COLUMN_YEAR +" DESC");
+        String[] colums = {Movie.COLUMN_TITLE};
+     //   Cursor cursor = db.query(Movie.TABLE_NAME, colums,null, null, null, null,Movie.COLUMN_YEAR +" DESC");
+     //   Cursor cursor = db.query(Movie.TABLE_NAME, colums,null, null, null, null,null);
       //  Cursor c = scoreDb.query(DATABASE_TABLE, rank, null, null, null, null, yourColumn+" DESC");
 
         String[] columns = {Movie.COLUMN_YEAR, Movie.COLUMN_TITLE};
@@ -130,13 +140,24 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         // looping through all rows and adding to list
         if (cursor.moveToFirst()) {
             do {
-                Movie mMovie = new Movie();
-                mMovie.setTitle(cursor.getString(cursor.getColumnIndex(Movie.COLUMN_TITLE)));
-                mMovie.setRating(cursor.getInt(cursor.getColumnIndex(Movie.COLUMN_RATING)));
-                mMovie.setYear(cursor.getInt(cursor.getColumnIndex(Movie.COLUMN_YEAR)));
-                mMovie.setGenre(cursor.getString(cursor.getColumnIndex(Movie.COLUMN_GENRE)));
-                mMovie.setImage(cursor.getString(cursor.getColumnIndex(Movie.COLUMN_IMAGE)));
+                /*
+                // one way
+                Movie mMovie = new Movie("title","rating",1900,"image","genre");
+                        mMovie.setTitle(cursor.getString(cursor.getColumnIndex(Movie.COLUMN_TITLE)));
+                        mMovie.setRating(cursor.getString(cursor.getColumnIndex(Movie.COLUMN_RATING)));
+                        mMovie.setYear(cursor.getInt(cursor.getColumnIndex(Movie.COLUMN_YEAR)));
+                        mMovie.setGenre(cursor.getString(cursor.getColumnIndex(Movie.COLUMN_GENRE)));
+                        mMovie.setImage(cursor.getString(cursor.getColumnIndex(Movie.COLUMN_IMAGE)));
+*/
+                //secound way
+                Movie mMovie = new Movie(
+                        cursor.getString(cursor.getColumnIndex(Movie.COLUMN_TITLE)),
+                        cursor.getString(cursor.getColumnIndex(Movie.COLUMN_RATING)),
+                        cursor.getInt(cursor.getColumnIndex(Movie.COLUMN_YEAR)),
+                        cursor.getString(cursor.getColumnIndex(Movie.COLUMN_IMAGE)),
+                        cursor.getString(cursor.getColumnIndex(Movie.COLUMN_GENRE))
 
+                );
                 Log.i(funTag,"cursor - " + cursor.toString());
                 Log.i(funTag, "movie - " + mMovie.toString());
 

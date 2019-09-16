@@ -9,7 +9,7 @@ package com.assafbt.movies;
 public class Movie {
 
     public String title;
-    public double rating;
+    public String rating;
     public int year;
     public String image;
     public String genre;
@@ -26,27 +26,39 @@ public class Movie {
     public static final String CREATE_TABLE =
             "CREATE TABLE " + TABLE_NAME + "("
                     + COLUMN_TITLE +    " TEXT PRIMARY KEY,"
-                    + COLUMN_RATING +     " REAL,"
+                    + COLUMN_RATING +     " TEXT,"
                     + COLUMN_YEAR +   " INTEGER,"
                     + COLUMN_IMAGE +    " TEXT,"
                     + COLUMN_GENRE +    " TEXT"
                     + ");";
 
     public Movie() {
-
+        /*
+        this.title = "1";
+        setTitle("1");
+        setRating("1");
+        setYear(1111);
+        setImage("1");
+        setGenre("1");
+         */
     }
 
-    public Movie(String title, double rating, int year, String image, String genre) {
-/*        setTitle(title);
+    public Movie(String title, String rating, int year, String image, String genre) {
+        /*
+        setTitle(title);
         setRating(rating);
         setYear(year);
         setImage(image);
-        setGenre(genre);*/
+        setGenre(genre);
+        */
+
         this.title = title;
         this.rating = rating;
         this.year = year;
         this.image = image;
         this.genre = genre;
+
+
     }
 
     //Movie Title
@@ -58,15 +70,10 @@ public class Movie {
     }
 
     //Movie Rating
-    public double getRating() {
+    public String getRating() {
         return rating;
     }
-    public void setRating(double rating) {
-        /*
-        //show 2 numbers after the dot
-        BigDecimal bd = new BigDecimal(input).setScale(2, RoundingMode.HALF_UP);
-        this.rating = bd.doubleValue();
-         */
+    public void setRating(String rating) {
         this.rating = rating;
     }
 
