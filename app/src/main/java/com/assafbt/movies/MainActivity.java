@@ -69,16 +69,17 @@ public class MainActivity extends AppCompatActivity {
 
         mList = findViewById(R.id.main_list);
 
-        //movieList = new ArrayList<>();
-       // movieList = dbHelper.getAllMovies();
+        Log.i(functionTAG,"list1234321");
+        movieList = new ArrayList<>();
+        movieList = dbHelper.getAllMovies();
+        Log.i(functionTAG,"list1234321");
 
-
-        // testing
+        /*// testing
         Movie tempMovie = new Movie();
         tempMovie = dbHelper.getMovie("District 9");
         Log.i(functionTAG, "get first Movie " + tempMovie.getTitle());
 
-
+*/
         Log.i(functionTAG, "DatabaseVersion " + dbHelper.getDatabaseVersion());
         Log.i(functionTAG, "MoviesCount  " + dbHelper.getMoviesCount());
         adapter = new MovieAdapter(getApplicationContext(),movieList);

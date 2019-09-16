@@ -21,7 +21,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     private String TAG = "DatabaseHelper";
 
     // Database Version
-    private static final int DATABASE_VERSION = 4;
+    private static final int DATABASE_VERSION = 5;
 
     // Database Name
     private static final String DATABASE_NAME = "movies_db";
@@ -89,6 +89,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         String functionTAG = TAG +" getMovie:";
 
         Log.i(functionTAG,"111");
+
         String[] mColumns = {Movie.COLUMN_TITLE, Movie.COLUMN_RATING, Movie.COLUMN_YEAR};
         String mQuery = Movie.COLUMN_TITLE + "=?";
         Cursor cursor = db.query(Movie.TABLE_NAME,
@@ -117,53 +118,27 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     public List<Movie> getAllMovies() { // #################
         String funTag = TAG + ", getAllMovies:";
-        List<Movie> mMovieList = new ArrayList<>();
-
         Log.i(funTag," ");
-        // Select All Query
-        String selectQuery = "SELECT * FROM " + Movie.TABLE_NAME + " ORDER BY " +
-                Movie.COLUMN_YEAR + " DESC";
-        Log.i(funTag," selectQuery - " + selectQuery);
+        String query =  "SELECT  * FROM " + Movie.TABLE_NAME + " ORDER BY " + Movie.COLUMN_YEAR +" ASC";
 
+        List<Movie> mMovieList = new ArrayList<>();
         SQLiteDatabase db = this.getWritableDatabase();
-      //  Cursor cursor = db.rawQuery(selectQuery, null);
-        String[] colums = {Movie.COLUMN_TITLE};
-     //   Cursor cursor = db.query(Movie.TABLE_NAME, colums,null, null, null, null,Movie.COLUMN_YEAR +" DESC");
-     //   Cursor cursor = db.query(Movie.TABLE_NAME, colums,null, null, null, null,null);
-      //  Cursor c = scoreDb.query(DATABASE_TABLE, rank, null, null, null, null, yourColumn+" DESC");
+        Cursor cursor = db.rawQuery(query, null);
+        Movie mMovie;
 
-        String[] columns = {Movie.COLUMN_YEAR, Movie.COLUMN_TITLE};
-        Cursor cursor = db.query(Movie.TABLE_NAME,columns,null,null,null,null,null);
-
-        Log.i(funTag,"cursor 1st - " + cursor.moveToFirst());
-
-        // looping through all rows and adding to list
         if (cursor.moveToFirst()) {
             do {
-                /*
-                // one way
-                Movie mMovie = new Movie("title","rating",1900,"image","genre");
-                        mMovie.setTitle(cursor.getString(cursor.getColumnIndex(Movie.COLUMN_TITLE)));
-                        mMovie.setRating(cursor.getString(cursor.getColumnIndex(Movie.COLUMN_RATING)));
-                        mMovie.setYear(cursor.getInt(cursor.getColumnIndex(Movie.COLUMN_YEAR)));
-                        mMovie.setGenre(cursor.getString(cursor.getColumnIndex(Movie.COLUMN_GENRE)));
-                        mMovie.setImage(cursor.getString(cursor.getColumnIndex(Movie.COLUMN_IMAGE)));
-*/
-                //secound way
-                Movie mMovie = new Movie(
-                        cursor.getString(cursor.getColumnIndex(Movie.COLUMN_TITLE)),
-                        cursor.getString(cursor.getColumnIndex(Movie.COLUMN_RATING)),
-                        cursor.getInt(cursor.getColumnIndex(Movie.COLUMN_YEAR)),
-                        cursor.getString(cursor.getColumnIndex(Movie.COLUMN_IMAGE)),
-                        cursor.getString(cursor.getColumnIndex(Movie.COLUMN_GENRE))
-
-                );
-                Log.i(funTag,"cursor - " + cursor.toString());
-                Log.i(funTag, "movie - " + mMovie.toString());
+                mMovie = new Movie();
+                mMovie.setTitle(cursor.getString(cursor.getColumnIndex(Movie.COLUMN_TITLE)));
+                mMovie.setRating(cursor.getString(cursor.getColumnIndex(Movie.COLUMN_RATING)));
+                mMovie.setYear(cursor.getInt(cursor.getColumnIndex(Movie.COLUMN_YEAR)));
+                mMovie.setImage(cursor.getString(cursor.getColumnIndex(Movie.COLUMN_IMAGE)));
+                mMovie.setGenre(cursor.getString(cursor.getColumnIndex(Movie.COLUMN_GENRE)));
 
                 mMovieList.add(mMovie);
             } while (cursor.moveToNext());
         }
+
 
         // close db connection
         db.close();
