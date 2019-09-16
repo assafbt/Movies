@@ -14,10 +14,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import androidx.recyclerview.widget.RecyclerView;
-
-import java.io.Serializable;
 import java.util.List;
 
 import static android.content.Intent.FLAG_ACTIVITY_NEW_TASK;
@@ -43,11 +40,8 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.ViewHolder> 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
         Movie movie = movieList.get(position);
-
         holder.textTitle.setText(movie.getTitle());
-       // holder.textRating.setText(String.valueOf(movie.getRating()));
         holder.textYear.setText(String.valueOf(movie.getYear()));
-
     }
 
     @Override
@@ -82,18 +76,10 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.ViewHolder> 
                         intent.putExtra("movie_image",clickedMovie.image);
                         intent.putExtra("movie_genre",clickedMovie.genre);
 
-                        intent.putExtra("movie_Possiton", pos);
-//                        intent.putExtra("Movie_obj", (Serializable) movieList.get(pos));
                         context.getApplicationContext().startActivity(intent);
-
                     }
                 }
             });
-
-
         }//ViewHolder
     }//ViewHolder extends
-
-
-
-}
+}//MovieAdapter extends

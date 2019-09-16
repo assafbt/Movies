@@ -7,14 +7,11 @@
 package com.assafbt.movies;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.RecyclerView;
 
-import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.ImageView;
 import android.widget.TextView;
-
 import com.squareup.picasso.Picasso;
 
 public class MovieDetailsActivity extends AppCompatActivity {
@@ -62,19 +59,14 @@ public class MovieDetailsActivity extends AppCompatActivity {
             mMovie.setImage(image);
             mMovie.setGenre(genre);
 
-            title = "Title: " +title;
-            rating = "Rating: " + rating;
-            genre = "Genre: " + genre;
-            String strYear = "Year: " + year;
-
-            tvTitle.setText(title);
-            tvRating.setText(rating);
-            tvYear.setText(strYear);
-            tvGenre.setText(genre);
+            tvTitle.append(title);
+            tvRating.append(rating);
+            tvYear.append(String.valueOf(year));
+            tvGenre.append(genre);
 
 
             Picasso.get().load(mMovie.getImage())
-                    .placeholder(R.drawable.folder_image) // optional
+                    .placeholder(R.drawable.folder_image)
                     .fit().centerInside().into(ivImage);
 
         }

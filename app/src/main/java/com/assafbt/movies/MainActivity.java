@@ -36,7 +36,6 @@ import static com.assafbt.movies.R.id.fabAddMovie;
 
 public class MainActivity extends AppCompatActivity {
     String movieUrl = "https://api.androidhive.info/json/movies.json";
-    private Context context;
 
     private RecyclerView mList;
     private String TAG = "MainActivity";
@@ -61,10 +60,9 @@ public class MainActivity extends AppCompatActivity {
 
             }
         });
+
         dbHelper = new DatabaseHelper(this);
-
         fetchData();
-
         mList = findViewById(R.id.main_list);
 
         Log.i(functionTAG,"list1234321");
@@ -72,16 +70,8 @@ public class MainActivity extends AppCompatActivity {
         movieList = dbHelper.getAllMovies();
         Log.i(functionTAG,"list1234321");
 
-        /*// testing
-        Movie tempMovie = new Movie();
-        tempMovie = dbHelper.getMovie("District 9");
-        Log.i(functionTAG, "get first Movie " + tempMovie.getTitle());
-
-*/
         Log.i(functionTAG, "DatabaseVersion " + dbHelper.getDatabaseVersion());
-        Log.i(functionTAG, "MoviesCount  " + dbHelper.getMoviesCount());
         adapter = new MovieAdapter(getApplicationContext(),movieList);
-
 
         linearLayoutManager = new LinearLayoutManager(this);
         linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
@@ -119,14 +109,11 @@ public class MainActivity extends AppCompatActivity {
                                 tempGenre += ", ";
                             tempGenre += genreArr.getString(j);
                         }
-                       // Log.i(TAG, "tempGenre: " + tempGenre);
 
                         movie.setGenre(tempGenre);
                         long possition = dbHelper.insertMovie(movie);
                         Log.i(TAG, "added in possition: " + possition);
 
-
-                        //movieList.add(movie);
                     } catch (JSONException e) {
                         e.printStackTrace();
                         Log.e("Error on JSONException", e.toString());
@@ -146,7 +133,4 @@ public class MainActivity extends AppCompatActivity {
         RequestQueue requestQueue = Volley.newRequestQueue(this);
         requestQueue.add(jsonArrayRequest);
     }//fetchData
-
-
-
 }//MainActivity

@@ -44,21 +44,11 @@ public class Movie {
     }
 
     public Movie(String title, String rating, int year, String image, String genre) {
-        /*
         setTitle(title);
         setRating(rating);
         setYear(year);
         setImage(image);
         setGenre(genre);
-        */
-
-        this.title = title;
-        this.rating = rating;
-        this.year = year;
-        this.image = image;
-        this.genre = genre;
-
-
     }
 
     //Movie Title
