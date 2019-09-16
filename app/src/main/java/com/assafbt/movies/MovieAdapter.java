@@ -45,7 +45,7 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.ViewHolder> 
 
         holder.textTitle.setText(movie.getTitle());
        // holder.textRating.setText(String.valueOf(movie.getRating()));
-       // holder.textYear.setText(String.valueOf(movie.getYear()));
+        holder.textYear.setText(String.valueOf(movie.getYear()));
 
     }
 
@@ -55,13 +55,12 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.ViewHolder> 
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-        public TextView textTitle, textRating, textYear;
+        public TextView textTitle, textYear;
 
         public ViewHolder(View itemView) {
             super(itemView);
 
             textTitle = itemView.findViewById(R.id.main_title);
-            textRating = itemView.findViewById(R.id.main_rating);
             textYear = itemView.findViewById(R.id.main_year);
 
             itemView.setOnClickListener(new View.OnClickListener(){
